@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Binalyzer BLSP",
+            "type": "python",
+            "request": "launch",
+            "program": "../.venv/bin/flask",
+            "args": [
+                "run",
+            ],
+            "env": {
+                "FLASK_APP": "server.py",
+                "PYTHONPATH": "${workspaceFolder}/binalyzer_blsp"
+            },
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "python": "${workspaceFolder}/../.venv/bin/python3"
+        },
+        {
+            "name": "Binalyzer BLSP Test",
+            "type": "python",
+            "request": "launch",
+            "program": "../.venv/bin/pytest",
+            "args": [
+                "-v",
+                "${workspaceFolder}/tests/test_lsp.py::test_parse_json_rcp_request_first_newline"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/binalyzer_blsp"
+            },
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "python": "${workspaceFolder}/../.venv/bin/python3"
+        },
+    ]
+}
