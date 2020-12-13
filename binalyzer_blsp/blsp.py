@@ -42,7 +42,7 @@ def binding(**kwargs):
 
 @dispatcher.add_method
 def shutdown(**kwargs):
-    pass
+    return True
 
 
 class JsonRPCHeader(object):
@@ -64,6 +64,9 @@ class JsonRPCMessage(object):
         if self.header is None:
             self.header = JsonRPCHeader()
         self.content = content
+
+    def __str__(self):
+        return f'{self.header}{self.content}'
 
 
 class JsonRPCParser(object):
@@ -123,7 +126,7 @@ class BLSPServer(socketserver.BaseRequestHandler):
             message = json_rpc_parser.parse_character(str(character, 'utf-8'))
             if message is None:
                 continue
-            logger.debug(f'JSON-RPC Request: {repr(str(message.header))}')
+            logger.debug(f'JSON-RPC Request: {repr(str(message))}')
             response = JSONRPCResponseManager.handle(
                 message.content, dispatcher)
             json_rpc_response = 'Content-Length: ' + \
@@ -131,3 +134,4 @@ class BLSPServer(socketserver.BaseRequestHandler):
             json_rpc_response += response.json
             logger.debug(f'JSON-RPC Response: {repr(str(json_rpc_response))}')
             self.request.sendall(bytes(json_rpc_response, "utf-8"))
+            json_rpc_parser = JsonRPCParser()
